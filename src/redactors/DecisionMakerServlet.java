@@ -96,7 +96,7 @@ public class DecisionMakerServlet extends HttpServlet {
 						"    <option value=\"NotDecidedYet\">Not Decided Yet</option>\r\n" + 
 						"    <option value=\"Accepted\">Accepted</option>\r\n" + 
 						"    <option value=\"Declined\">Declined</option>\r\n" + 
-						"    <option value=\"NextRound\">Next Round</option>\r\n" + 
+						"    <option value=\"Next Round\">Next Round</option>\r\n" + 
 						"  </select>\r\n" + 
 						"  <br><br>\r\n" + 
 						"<input type=\"hidden\" name=\"articleid\" value=\""+articleId+"\"/>"+

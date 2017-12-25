@@ -90,7 +90,7 @@ public class ReviewCreationServlet extends HttpServlet {
 				stmt.executeUpdate("update articles set final_mark='"+finalMarkString+"' where id="+articleToReviewID+";");
 				
 				out.println("Article with ID: " + articleToReviewID + " was reviewed");
-				out.println("<form name=\"queryForm\" action=\"mainReviewer.jsp\" method=\"post\">\r\n"
+				out.println("<form name=\"queryForm\" action=\"ArticlesToReviewViewer\" method=\"post\">\r\n"
 						+ " <button type=\"submit\"> OK </button>\r\n" + " </form>");
 
 				articleToReviewID = 0;

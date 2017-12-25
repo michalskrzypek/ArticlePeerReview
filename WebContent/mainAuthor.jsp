@@ -23,21 +23,8 @@
 
 	<form action="DecisionsViewerServlet" method="post">
 		<input type="submit" name="query"
-			value="Show all decisions to my articles">
+			value="Show articles that are already decided by redactors">
 	</form>
-
-
-
-	<%--<form action="ReviewsViewerServlet" method="post">
-		<input type="submit" name="query"
-			value="Show all reviews to my articles">
-	</form>
- --%>
-
-	<%--<form action="StatusServlet" method="post">
-		<input type="submit" name="query" value="Show all statuses to ma articles"><br>
-	</form>
- --%>
 
 	<br>
 	<br>

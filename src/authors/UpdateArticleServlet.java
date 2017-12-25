@@ -75,16 +75,17 @@ public class UpdateArticleServlet extends HttpServlet {
 					content = request.getParameter("content");
 
 					stmt.executeUpdate("UPDATE articles\r\n" + "SET title = '" + title + "', content = '" + content
-							+ "'\r\n" + "WHERE id = " + articleId + ";");
+							+ "', status = 'Draft', decision='Not Decided Yet' \r\n" + "WHERE id = " + articleId + ";");
 
 					ResultSet latestArticleIdSet = stmt
 							.executeQuery("SELECT Id FROM articles ORDER BY Id DESC LIMIT 1");
 					latestArticleIdSet.next();
 					latestArticleId = latestArticleIdSet.getInt(1);
 					stmt.executeUpdate("update status set content='Draft' where article_id="+articleId+";");
-
-					out.println("Article +"+String.valueOf(articleId)+" has been modified!:<br>");
-					out.println("<br><form name=\"queryForm\" action=\"mainAuthor.jsp\" method=\"post\">\r\n"
+					stmt.executeUpdate("delete from reviews where article_id="+articleId+";");
+					stmt.executeUpdate("delete from decisions where article_id="+articleId+";");
+					out.println("Article "+String.valueOf(articleId)+" has been modified!:<br>");
+					out.println("<br><form name=\"queryForm\" action=\"ArticlesViewerServlet\" method=\"post\">\r\n"
 							+ " <button type=\"submit\"> OK </button>\r\n" + " </form>");
 				}
 				stmt.close();

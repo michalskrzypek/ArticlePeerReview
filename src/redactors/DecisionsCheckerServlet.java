@@ -88,6 +88,9 @@ public class DecisionsCheckerServlet extends HttpServlet {
 					}
 					out.println(
 							"<td><form action=\"ArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><input type=\"submit\" name=\"query\" value=\"Show Article\"></form></td>");
+					out.println(
+							"<td><form action=\"ReviewsViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><input type=\"submit\" name=\"query\" value=\"Show Reviews\"></form></td>");
+				
 				
 					Object value = queryResult.getObject(1);
 

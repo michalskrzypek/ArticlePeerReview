@@ -66,7 +66,7 @@ public class StatusUpdaterServlet extends HttpServlet {
 				stmt.executeUpdate(query2);
 				out.println("Article with ID " + index + "was sent to review successfully!");
 				out.println(
-						"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
+						"<br><form action=\"ArticlesViewerServlet\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
 
 				stmt.close();
 
