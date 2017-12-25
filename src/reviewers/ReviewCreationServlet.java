@@ -64,14 +64,14 @@ public class ReviewCreationServlet extends HttpServlet {
 				mark = request.getParameter("mark"); // mark from radiobutton
 				userId = (int)session.getAttribute("id"); // reviewer id
 
-				stmt.executeUpdate("Insert into reviews(ARTICLEID, REVIEWERID, MARK, CONTENT) values("
+				stmt.executeUpdate("Insert into reviews(ARTICLE_ID, REVIEWER_ID, MARK, CONTENT) values("
 						+ articleToReviewID + ", " + userId + ", " + mark + ",'" + content + "');");
 
 				stmt.executeUpdate("update articles set status = 'Reviewed' where id=" + articleToReviewID + ";");
-				stmt.executeUpdate("update status set content= 'Reviewed' where articleid=" + articleToReviewID + ";");
+				stmt.executeUpdate("update status set content= 'Reviewed' where article_id=" + articleToReviewID + ";");
 
 				ResultSet marksResult = stmt
-						.executeQuery("select mark from reviews where articleid=" + articleToReviewID + ";");
+						.executeQuery("select mark from reviews where article_id=" + articleToReviewID + ";");
 				ArrayList<Integer> marks = new ArrayList<Integer>();
 				double marksSum = 0;
 				

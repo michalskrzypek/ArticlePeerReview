@@ -26,6 +26,7 @@ import java.util.Enumeration;
 public class ArticleCreationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static int userId = 0;
+	private static String title = null;
 	private static String content = null;
 	private Statement stmt = null;
 	private int latestArticleId;
@@ -58,17 +59,17 @@ public class ArticleCreationServlet extends HttpServlet {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
-
+				title = request.getParameter("title");
 				content = request.getParameter("content");
 				userId = (int)session.getAttribute("id");
 
-				stmt.executeUpdate("Insert into articles(AuthorId, Content) values(" + userId + ", '" + content
-						+"');");
+				stmt.executeUpdate("Insert into articles(author_id, title, content) values(" + userId + ", '" + title
+						+"', '"+content+"');");
 				
 				ResultSet latestArticleIdSet = stmt.executeQuery("SELECT Id FROM articles ORDER BY Id DESC LIMIT 1");
 				latestArticleIdSet.next();
 				latestArticleId = latestArticleIdSet.getInt(1);
-				stmt.executeUpdate("Insert into status(ArticleId) values(" + latestArticleId + ");");
+				stmt.executeUpdate("Insert into status(article_id) values(" + latestArticleId + ");");
 
 				out.println("inserted following content:<br>");
 				out.println(content);

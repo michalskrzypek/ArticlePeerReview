@@ -18,33 +18,28 @@ import javax.servlet.http.HttpSession;
 import pl.kti.dbservlet.DBManager;
 
 /**
- * Servlet implementation class ReviewsServlet Used to show reviews to every
- * author's article or to show all of the reviews to particular article
+ * Servlet implementation class DecisionsViewerServlet
  */
-@WebServlet("/ReviewsViewerServlet")
-public class ReviewsViewerServlet extends HttpServlet {
+@WebServlet("/DecisionsViewerServlet")
+public class DecisionsViewerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static Object value = null;
-	private static int authorId = 0;
-	private static int reviewerId = 0;
-	private static String query = null;
 	private Statement stmt = null;
-	private static int articleId;
-	ArrayList<Integer> articleIDs = null;
-
+	private static int authorId;
+	private static String query = null;
+private static ArrayList<Integer> articleIDs;
+private static Object value = null;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ReviewsViewerServlet() {
+	public DecisionsViewerServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -57,16 +52,11 @@ public class ReviewsViewerServlet extends HttpServlet {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
 
-				if (request.getParameter("articleid") != null) {
-					articleId = Integer.parseInt(request.getParameter("articleid"));
-				}
-
 				authorId = (int) session.getAttribute("id");
+				
+				query = "select id as ARTICLE_ID, decision AS DECISION, status AS STATUS from articles where author_id="+authorId+" and decision in('Accepted', 'Declined', 'Next Round');";
 
-				if (articleId != 0) {
-					query = "select * from reviews where article_id=" + articleId + ";";
-				} else {
-					query = "Select Id from articles where author_id=" + authorId + ";"; // getting a set of author's
+				/*	query = "Select Id from articles where AuthorId=" + authorId + ";"; // getting a set of author's
 																						// articles' Ids
 					ResultSet queryResult = stmt.executeQuery(query);
 
@@ -82,23 +72,24 @@ public class ReviewsViewerServlet extends HttpServlet {
 								"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
 
 					} else {
-						StringBuilder sb = new StringBuilder("select * from reviews where ");
+						StringBuilder sb = new StringBuilder("select * from decisions where ");
 						for (int i = 0; i < articleIDs.size(); i++) {
 
 							if (i == articleIDs.size() - 1) {
-								sb.append("article_id=" + articleIDs.get(i) + ";");
+								sb.append("ArticleId=" + articleIDs.get(i) + ";");
 							} else {
-								sb.append("article_id=" + articleIDs.get(i) + " or ");
+								sb.append("ArticleId=" + articleIDs.get(i) + " or ");
 							}
 
 						}
 
 						query = sb.toString();
-					}
-
-				}
+					}*/
 
 				ResultSet queryResult = stmt.executeQuery(query);
+				if(!queryResult.next()) {
+					out.println("There is no new decisions.");
+				}else {
 				queryResult = stmt.executeQuery(query);
 				ResultSetMetaData meta = queryResult.getMetaData();
 				int colCount = meta.getColumnCount();
@@ -129,11 +120,16 @@ public class ReviewsViewerServlet extends HttpServlet {
 						out.println("</td>");
 
 					}
+					
+					out.println(
+							"<form action=\"ArticlesViewerServlet\" method=\"post\"><td>"
+							+     "<input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getInt(1)+"\">" 
+							+ "<input type=\"submit\" name=\"query\" value=\"Show Article\"></td></form>");
 					value = queryResult.getObject(1);
 
 				}
 				out.println("</table>");
-				articleId = 0;
+				}
 				queryResult.close();
 				stmt.close();
 
@@ -143,6 +139,7 @@ public class ReviewsViewerServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	/**

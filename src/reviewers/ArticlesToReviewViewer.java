@@ -62,7 +62,7 @@ public class ArticlesToReviewViewer extends HttpServlet {
 				stmt2 = DBManager.getConnection().createStatement();
 				reviewerId = (int) session.getAttribute("id");
 
-				query = "select authors.fname as 'FIRST NAME' ,authors.lname AS 'LAST NAME', articles.id as 'ARTICLE ID', articles.content as 'ARTICLE', articles.status as 'STATUS', articles.decision as 'DECISION' from authors, articles where articles.authorid = authors.id and articles.status = 'Waiting for a review';";
+				query = "select authors.fname as 'FIRST NAME' ,authors.lname AS 'LAST NAME', articles.id as 'ARTICLE ID', articles.content as 'ARTICLE', articles.status as 'STATUS', articles.decision as 'DECISION' from authors, articles where articles.author_id = authors.id and articles.status = 'Waiting for a review';";
 
 				ResultSet initResult = stmt.executeQuery(query);
 
@@ -99,8 +99,8 @@ public class ArticlesToReviewViewer extends HttpServlet {
 							out.println("</td>");
 						}
 
-						String query2 = "Select * from reviews where articleid=" + queryResult.getString(3)
-								+ " and reviewerid=" + reviewerId + ";";
+						String query2 = "Select * from reviews where article_id=" + queryResult.getString(3)
+								+ " and reviewer_id=" + reviewerId + ";";
 						ResultSet queryResult2 = stmt2.executeQuery(query2);
 						if (!queryResult2.next()) {
 							out.println(

@@ -11,7 +11,7 @@
 
 <h3>create review to article:</h3>
 <form name="queryForm" action="ReviewCreationServlet" method="post">
-<textarea name="content" col="100" rows="10"></textarea><br>
+<textarea name="content" cols="100" rows="10"></textarea><br>
 <br>
 
   <input type="radio" name="mark" value="1" checked> 1

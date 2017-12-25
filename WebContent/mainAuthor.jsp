@@ -21,17 +21,24 @@
 		<input type="submit" name="query" value="Show my articles"><br>
 	</form>
 
-
-	<form action="StatusServlet" method="post">
-		<input type="submit" name="query" value="Check my articles' status"><br>
+	<form action="DecisionsViewerServlet" method="post">
+		<input type="submit" name="query"
+			value="Show all decisions to my articles">
 	</form>
-	
-	<form action="ReviewsViewerServlet" method="post">
-		<input type="submit" name="query" value="Show my articles' reviews">
-	</form><br>
 
 
-	<input type="button" name="query" value="Check my articles' decision">
+
+	<%--<form action="ReviewsViewerServlet" method="post">
+		<input type="submit" name="query"
+			value="Show all reviews to my articles">
+	</form>
+ --%>
+
+	<%--<form action="StatusServlet" method="post">
+		<input type="submit" name="query" value="Show all statuses to ma articles"><br>
+	</form>
+ --%>
+
 	<br>
 	<br>
 	<br>

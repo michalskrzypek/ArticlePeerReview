@@ -15,8 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Servlet implementation class LoginServlet
- * Servlet is used to log in users
+ * Servlet implementation class LoginServlet Servlet is used to log in users
  */
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -47,12 +46,12 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
+
 		HttpSession session = request.getSession();
-		if(session!=null || session.getAttribute("id")==null) {
+		if (session != null || session.getAttribute("id") == null) {
 			session.invalidate();
 		}
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Statement stmt = DBManager.getConnection().createStatement();
@@ -61,7 +60,8 @@ public class LoginServlet extends HttpServlet {
 			userPassword = request.getParameter("Password");
 
 			query = "Select * from authors where username='" + userName
-					+ "' union Select * from reviewers where username='" + userName + "';";
+					+ "' union Select * from reviewers where username='" + userName
+					+ "' union select * from redactors where username='" + userName + "';";
 			queryResult = stmt.executeQuery(query);
 
 			// Firstly, we check if there's a user with the username
@@ -69,7 +69,8 @@ public class LoginServlet extends HttpServlet {
 
 				query = "Select * from authors where username='" + userName + "' and password='" + userPassword
 						+ "' union Select * from reviewers where username='" + userName + "' and password='"
-						+ userPassword + "';";
+						+ userPassword + "' union select * from redactors where username='" + userName
+						+ "' and password='" + userPassword + "';";
 				queryResult = stmt.executeQuery(query);
 
 				// checking if there's user with compatible both username and password
@@ -81,22 +82,23 @@ public class LoginServlet extends HttpServlet {
 					userKind = queryResult.getString(4);
 					userName = queryResult.getString(5);
 
-
 					out.println("Successfully logged in as " + userName
 							+ ". You will be automatically redirect to main " + userKind + " page.");
-					
-					//creating a new session for a particular user and setting necessary attributes
+
+					// creating a new session for a particular user and setting necessary attributes
 					session = request.getSession();
 					session.setAttribute("id", id);
 					session.setAttribute("fname", firstName);
 					session.setAttribute("lname", lastName);
 					session.setAttribute("username", userName);
 					session.setAttribute("userkind", userKind);
-					
+
 					if (userKind.equalsIgnoreCase("author")) {
 						response.setHeader("Refresh", "5; URL=mainAuthor.jsp");
 					} else if (userKind.equalsIgnoreCase("reviewer")) {
 						response.setHeader("Refresh", "5; URL=mainReviewer.jsp");
+					} else if (userKind.equalsIgnoreCase("redactor")) {
+						response.setHeader("Refresh", "5; URL=mainRedactor.jsp");
 					}
 
 				} else {
@@ -111,7 +113,7 @@ public class LoginServlet extends HttpServlet {
 				rd.include(request, response);
 
 			}
-			
+
 			queryResult.close();
 			stmt.close();
 		} catch (ClassNotFoundException e) {
@@ -124,7 +126,7 @@ public class LoginServlet extends HttpServlet {
 			if (out != null)
 				out.close();
 		}
-		}
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

@@ -13,7 +13,7 @@
 		<table style="border: 1px solid black">
 			<tr>
 				<td>First name:</td>
-				<td><input type="text" size="15" name="FirstName" /></td>
+				<td><input type="text" size="15" name="FirstName"/></td>
 			<tr>
 			<tr>
 				<td>Last name:</td>

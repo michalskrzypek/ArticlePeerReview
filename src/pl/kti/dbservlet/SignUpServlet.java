@@ -81,8 +81,10 @@ public class SignUpServlet extends HttpServlet {
 				out.println("<br><p style=\"color:red\">Password is too short! (minimum 6 letters)</p>");
 			}else {
 			// Firstly we check if the username is already used
-			query = "Select * from authors where username='" + userName
-					+ "' union Select * from reviewers where username='" + userName + "';";
+				query = "Select * from authors where username='" + userName + "' and password='" + userPassword
+						+ "' union Select * from reviewers where username='" + userName + "' and password='"
+						+ userPassword + "' union select * from redactors where username='" + userName
+						+ "' and password='" + userPassword + "';";
 			ResultSet queryResult = stmt.executeQuery(query);
 
 			if (queryResult.next()) {

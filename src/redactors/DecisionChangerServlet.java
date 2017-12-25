@@ -1,4 +1,4 @@
-package authors;
+package redactors;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,21 +17,21 @@ import javax.servlet.http.HttpSession;
 import pl.kti.dbservlet.DBManager;
 
 /**
- * Servlet implementation class StatusServlet Servlet responsible for sending article to review
+ * Servlet implementation class DecisionChangerServlet
  */
-@WebServlet("/StatusUpdaterServlet")
-public class StatusUpdaterServlet extends HttpServlet {
+@WebServlet("/DecisionChangerServlet")
+public class DecisionChangerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Statement stmt = null;
-	private String query = null;
-	private int authorsId;
-	private Object value = null;
-	ArrayList<Integer> articleIDs = null;
+	private static Statement stmt = null;
+	private static String query = "";
+	private static String decision = "";
+	private static String articleId = "";
+	private static int redactorId;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public StatusUpdaterServlet() {
+	public DecisionChangerServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,31 +44,31 @@ public class StatusUpdaterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+
 		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("id")==null) {
+		if (session == null || session.getAttribute("id") == null) {
 			out.print("Please login first!");
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
-				int index = Integer.parseInt(request.getParameter("articleid")); // id of article which is to be
-																					// reviewed
-
-				String query = "UPDATE articles\r\n" + "SET status = 'Waiting for a review'" + "WHERE Id=" + index
-						+ ";";
-
-				String query2 = "UPDATE status\r\n" + "SET content = 'Waiting for a review'" + "WHERE article_id="
-						+ index + ";";
-
+				redactorId = (int) session.getAttribute("id");
+				articleId = request.getParameter("articleid");
+				decision = request.getParameter("decision");
+				
+				query = "Insert into decisions(article_id, redactor_id, content) values("+articleId+", "+redactorId+", '"+decision+"')";
 				stmt.executeUpdate(query);
-				stmt.executeUpdate(query2);
-				out.println("Article with ID " + index + "was sent to review successfully!");
-				out.println(
-						"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-
+				
+				query = "update articles set decision='"+decision+"', status='Decided' where id="+articleId+";";
+				stmt.executeUpdate(query);
+				
+				query = "update status set content='Decided' where article_id="+articleId+";";
+				stmt.executeUpdate(query);
+				
 				stmt.close();
-
+				
+				out.println("You "+decision+" the article "+articleId+". <br><br><form action=\"mainRedactor.jsp\" method=\"post\"><input type=\"submit\" value=\"OK\"/></form>");
 			} catch (ClassNotFoundException e) {
 				out.println(e.getMessage());
 				e.printStackTrace();

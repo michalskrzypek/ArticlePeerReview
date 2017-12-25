@@ -72,9 +72,15 @@ public class ArticlesViewerServlet extends HttpServlet {
 					index = Integer.parseInt(request.getParameter("articleid"));
 					query = "Select * from articles where Id=" + index + ";";
 				} else {
-					query = "Select * from articles where AuthorId=" + authorsId + ";";
+					query = "Select * from articles where author_id=" + authorsId + ";";
 				}
 				ResultSet queryResult = stmt.executeQuery(query);
+				
+				if(!queryResult.next()) {
+					out.println("You have no articles yet.");
+				}else {
+					
+				queryResult = stmt.executeQuery(query);
 				ResultSetMetaData meta = queryResult.getMetaData();
 				int colCount = meta.getColumnCount();
 				out.println("<table border=\"1\">");
@@ -82,11 +88,11 @@ public class ArticlesViewerServlet extends HttpServlet {
 				// header row:
 				out.println("<tr>");
 				for (int col = 1; col <= colCount; col++) {
-					if (col != 2) {
+					
 						out.println("<th>");
 						out.println(meta.getColumnLabel(col));
 						out.println("</th>");
-					}
+					
 				}
 
 				out.println("</tr>");
@@ -95,19 +101,23 @@ public class ArticlesViewerServlet extends HttpServlet {
 
 					out.println("<tr>");
 					for (int col = 1; col <= colCount; col++) {
-						if (col != 2) {
+						
 							value = queryResult.getObject(col);
 							out.println("<td>");
 							if (value != null) {
 								out.println(value.toString());
 							}
 							out.println("</td>");
-						}
+						
 					}
-					if (queryResult.getString(4).equals("Draft")) {
+					if (queryResult.getString(5).equals("Draft")) {
 						out.println(
-								"<td><form action=\"StatusUpdaterServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Send article to review\"></form></td>");
-					} else if (queryResult.getString(4).equals("Reviewed")) {
+								"<td><form action=\"UpdateArticleServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Modify Article\"></form></td>");
+				
+						out.println(
+								"<br><td><form action=\"StatusUpdaterServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Send article to review\"></form></td>");
+				
+					} else if (queryResult.getString(5).equals("Reviewed") || queryResult.getString(5).equals("Decided")) {
 						out.println(
 								"<td><form action=\"ReviewsViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Show reviews\"></form></td>");
 						}
@@ -115,14 +125,8 @@ public class ArticlesViewerServlet extends HttpServlet {
 
 				}
 				out.println("</table>");
-				if(index!=0) {
-					out.println(
-							"<br><form action=\"StatusServlet\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-				}else {
-					out.println(
-							"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-				}
 					queryResult.close();
+				}
 				stmt.close();
 			} catch (ClassNotFoundException e) {
 				out.println(e.getMessage());

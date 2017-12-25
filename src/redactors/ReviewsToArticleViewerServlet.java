@@ -1,4 +1,4 @@
-package authors;
+package redactors;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,21 +18,23 @@ import javax.servlet.http.HttpSession;
 import pl.kti.dbservlet.DBManager;
 
 /**
- * Servlet implementation class StatusServlet Servlet responsible for sending article to review
+ * Servlet implementation class ReviewsToArticleViewerServlet
  */
-@WebServlet("/StatusUpdaterServlet")
-public class StatusUpdaterServlet extends HttpServlet {
+@WebServlet("/ReviewsToArticleViewerServlet")
+public class ReviewsToArticleViewerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static Object value = null;
+	private static int authorId = 0;
+	private static int reviewerId = 0;
+	private static String query = null;
 	private Statement stmt = null;
-	private String query = null;
-	private int authorsId;
-	private Object value = null;
+	private static String articleId;
 	ArrayList<Integer> articleIDs = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public StatusUpdaterServlet() {
+	public ReviewsToArticleViewerServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,42 +47,65 @@ public class StatusUpdaterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+	
 		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("id")==null) {
-			out.print("Please login first!");
+		
+		if (session == null ||session.getAttribute("id") == null) {
+			out.print("Please login as a redactor!");
 			request.getRequestDispatcher("login.jsp").include(request, response);
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
-				int index = Integer.parseInt(request.getParameter("articleid")); // id of article which is to be
-																					// reviewed
+				articleId = request.getParameter("articleid");
 
-				String query = "UPDATE articles\r\n" + "SET status = 'Waiting for a review'" + "WHERE Id=" + index
-						+ ";";
+				query = "select * from reviews where article_id=" + articleId + ";";
 
-				String query2 = "UPDATE status\r\n" + "SET content = 'Waiting for a review'" + "WHERE article_id="
-						+ index + ";";
+				ResultSet queryResult = stmt.executeQuery(query);
 
-				stmt.executeUpdate(query);
-				stmt.executeUpdate(query2);
-				out.println("Article with ID " + index + "was sent to review successfully!");
-				out.println(
-						"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
+				ResultSetMetaData meta = queryResult.getMetaData();
+				int colCount = meta.getColumnCount();
+				out.println("<table border=\"1\">");
 
+				// header row:
+				out.println("<tr>");
+				for (int col = 1; col <= colCount; col++) {
+
+					out.println("<th>");
+					out.println(meta.getColumnLabel(col));
+					out.println("</th>");
+
+				}
+
+				out.println("</tr>");
+
+				while (queryResult.next()) {
+
+					out.println("<tr>");
+					for (int col = 1; col <= colCount; col++) {
+
+						value = queryResult.getObject(col);
+						out.println("<td>");
+						if (value != null) {
+							out.println(value.toString());
+						}
+						out.println("</td>");
+
+					}
+					value = queryResult.getObject(1);
+
+				}
+				out.println("</table>");
+				queryResult.close();
 				stmt.close();
 
 			} catch (ClassNotFoundException e) {
-				out.println(e.getMessage());
 				e.printStackTrace();
 			} catch (SQLException e) {
-				out.println(e.getMessage());
 				e.printStackTrace();
-			} finally {
-				if (out != null)
-					out.close();
 			}
 		}
+
 	}
 
 	/**

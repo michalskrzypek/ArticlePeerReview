@@ -18,8 +18,7 @@ import javax.servlet.http.HttpSession;
 import pl.kti.dbservlet.DBManager;
 
 /**
- * Servlet implementation class StatusServlet Servlet responsible for updating
- * article's status and showing statuses to user
+ * Servlet implementation class StatusServlet Servlet responsible for showing all of the statuses to user
  */
 @WebServlet("/StatusServlet")
 public class StatusServlet extends HttpServlet {
@@ -60,14 +59,14 @@ public class StatusServlet extends HttpServlet {
 
 				String req = request.getParameter("query");
 				if (req.startsWith("Send")) {
-					query = "Select Id from articles where AuthorId=" + authorsId + ";";
+					query = "Select Id from articles where author_id=" + authorsId + ";";
 				} else if (req.startsWith("Update")) {
 
 				} else {
 
 					authorsId = (int)session.getAttribute("id");
 
-					query = "Select Id from articles where AuthorId=" + authorsId + ";"; // getting a set of author's
+					query = "Select Id from articles where author_id=" + authorsId + ";"; // getting a set of author's
 																							// articles' Ids
 					ResultSet queryResult = stmt.executeQuery(query);
 
@@ -85,9 +84,9 @@ public class StatusServlet extends HttpServlet {
 						for (int i = 0; i < articleIDs.size(); i++) {
 
 							if (i == articleIDs.size() - 1) {
-								sb.append("ArticleId=" + articleIDs.get(i) + ";");
+								sb.append("article_id=" + articleIDs.get(i) + ";");
 							} else {
-								sb.append("ArticleId=" + articleIDs.get(i) + " or ");
+								sb.append("article_id=" + articleIDs.get(i) + " or ");
 							}
 
 						}

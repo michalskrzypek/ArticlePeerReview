@@ -57,7 +57,7 @@ public class ReviewViewerServlet extends HttpServlet {
 				stmt = DBManager.getConnection().createStatement();
 				reviewerId = (int)session.getAttribute("id");
 				articleId = Integer.parseInt(request.getParameter("articleid"));
-				query = "select * from reviews where articleid=" + articleId + " and reviewerid=" + reviewerId
+				query = "select * from reviews where article_id=" + articleId + " and reviewer_id=" + reviewerId
 						+ ";";
 				
 				ResultSet queryResult = stmt.executeQuery(query);

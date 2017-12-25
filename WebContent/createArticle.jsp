@@ -9,7 +9,8 @@
 <body>
 <h3>create article</h3>
 <form name="queryForm" action="ArticleCreationServlet" method="post">
-<textarea name="content" col="100" rows="10"></textarea><br>
+<textarea name="title" cols="100"></textarea><br>
+<textarea name="content" cols="100" rows="10"></textarea><br>
 <input type="submit" value="Send your article">
 </form>
 </body>

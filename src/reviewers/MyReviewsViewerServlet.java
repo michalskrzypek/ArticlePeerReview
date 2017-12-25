@@ -56,7 +56,7 @@ public class MyReviewsViewerServlet extends HttpServlet {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
 				reviewerId = (int)session.getAttribute("id");
-				query = "select * from reviews where reviewerid=" + reviewerId + ";";
+				query = "select * from reviews where reviewer_id=" + reviewerId + ";";
 				
 				ResultSet queryResult = stmt.executeQuery(query);
 				queryResult = stmt.executeQuery(query);
@@ -91,7 +91,7 @@ public class MyReviewsViewerServlet extends HttpServlet {
 					}
 					
 					out.println(
-							"<td><form action=\"ArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><input type=\"submit\" name=\"query\" value=\"Show article\"></form></td>");
+							"<td><form action=\"ArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><input type=\"submit\" name=\"query\" value=\"Show Article\"></form></td>");
 					value = queryResult.getObject(1);
 
 				}
