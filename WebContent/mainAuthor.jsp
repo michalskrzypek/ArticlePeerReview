@@ -18,12 +18,12 @@
 
 
 	<form action="ArticlesViewerServlet" method="post">
-		<input type="submit" name="query" value="Show my articles"><br>
+		<input type="submit" name="query" value="My articles"><br>
 	</form>
 
 	<form action="DecisionsViewerServlet" method="post">
 		<input type="submit" name="query"
-			value="Show articles that are already decided by redactors">
+			value="My articles with decision">
 	</form>
 
 	<br>

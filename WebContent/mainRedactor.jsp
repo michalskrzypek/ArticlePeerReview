@@ -13,11 +13,11 @@
 
 
 	<form action="ArticlesCheckerServlet" method="post">
-		<input type="submit" name="query" value="Show ready articles"></br>
+		<input type="submit" name="query" value="Reviewed articles"></br>
 	</form>
 	
 	<form action="DecisionsCheckerServlet" method="post">
-		<input type="submit" name="query" value="Show your decisions"></br>
+		<input type="submit" name="query" value="My decisions"></br>
 	</form>
 	
 	<br>

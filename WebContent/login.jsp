@@ -1,23 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sign up to ReviewMe®</title>
+  <meta charset="UTF-8">
+  <title>Login to ReviewMe®</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
 </head>
+
 <body>
-<h2>LOG IN</h2>
-<div style="margin: auto; position=absolute">
-<form action="LoginServlet" method="post">
-<table style="border:1px solid black">
-<tr><td>Username: </td><td><input type="text" size="15" name="UserName"></td></tr>
-<tr><td>Password: </td><td><input type="password" size="16" name="Password"></td></tr>
-</table><br>
-<input type="submit" value="Log in">
-</form>
-<br>
-<a href="signUp.jsp">or sign up</a>
-</div>
+<% 
+String message = (String)session.getAttribute("message");
+%>
+
+<div class="container">
+	<section id="content">
+		<form action="LoginServlet" method="post">
+			<h1>Login Form</h1>
+			<div>
+				<input type="text" placeholder="Username" required="" name="UserName" />
+			</div>
+			<div>
+				<input type="password" placeholder="Password" required="" name="Password" />
+			</div>
+			<div>
+				<input type="submit" value="Log in" />
+
+				<a href="signUp.jsp">Create an account</a><p>Not registered?</p>
+			</div>
+		</form><!-- form -->
+	</section><!-- content -->
+	
+	
+	    <%--<c:set var="test2" value="${message}" />
+	<c:choose>
+    <c:when test="${message != null}">
+            <c:out value="${message}" escapeXml="false" />
+    </c:when>
+</c:choose> --%>
+
+</div><!-- container -->
 </body>
+    <script  src="js/index.js"></script>
 </html>

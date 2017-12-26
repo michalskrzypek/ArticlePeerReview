@@ -1,40 +1,74 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sign up to ReviewMe®</title>
-</head>
-<body>
-	<h2 style="color: blue">SIGN UP</h2>
+  <meta charset="UTF-8">
+  <title>Sign Up to ReviewMe®</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
 
-	<form action="SignUpServlet" method="post">
-		<table style="border: 1px solid black">
-			<tr>
-				<td>First name:</td>
-				<td><input type="text" size="15" name="FirstName"/></td>
-			<tr>
-			<tr>
-				<td>Last name:</td>
-				<td><input type="text" size="15" name="LastName"></td>
-			</tr>
-			<tr>
-				<td>Username:</td>
-				<td><input type="text" size="15" name="UserName"></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type="password" size="16" name="Password"></td>
-			</tr>
-		</table>
-		<input type="radio" name="userKind" value="Author" checked>
-		Author <input type="radio" name="userKind" value="Reviewer">
-		Reviewer <input type="radio" name="userKind" value="Redactor">
-		Redactor<br>
-		<br> <input type="submit" value="Sign up">
-	</form>
-	<br>
-	<a href="login.jsp">or log in</a>
+  
+</head>
+
+<body>
+<%
+String fname = (String)session.getAttribute("fname");
+String lname = (String)session.getAttribute("lname");
+String username = (String)session.getAttribute("username");
+String password = (String)session.getAttribute("password");
+%>
+
+<%  
+if(fname == null){
+	fname = "";
+}
+
+if(lname == null){
+	lname = "";
+}
+
+if(username == null){
+	username = "";
+}
+
+if(password == null){
+	password = "";
+}
+
+%>
+
+
+<div class="container">
+	<section id="content">
+		<form action="SignUpServlet" method="post">
+			<h1>Create account</h1>
+			<div>
+				<input type="text" placeholder="First Name" required="" name="FirstName" value=<%=fname %>>
+			</div>
+			<div>
+				<input type="text" placeholder="Last Name" required="" name="LastName" value=<%=lname %>>
+			</div>
+			<div>
+				<input type="text" placeholder="Username" required="" name="UserName" value=<%=username %>>
+			</div>
+			<div>
+				<input type="password" placeholder="Password" required="" name="Password" value=<%=password%>>
+			</div>
+			<div><input type="radio" name="userKind" value="Author" checked>Author 
+			<input type="radio" name="userKind" value="Reviewer">Reviewer 
+			<input type="radio" name="userKind" value="Redactor">Redactor
+			</div>
+			<div>
+				<input type="submit" value="Submit" />
+
+				 <a href="login.jsp">Log in</a><p>Already have an account?</p>
+			</div>
+		</form><!-- form -->
+	</section><!-- content -->
+</div><!-- container -->
 </body>
+    <script  src="js/index.js"></script>
 </html>

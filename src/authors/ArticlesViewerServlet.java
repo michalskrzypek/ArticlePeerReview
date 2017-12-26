@@ -178,7 +178,7 @@ public class ArticlesViewerServlet extends HttpServlet {
 					queryResult = stmt.executeQuery(query);
 					meta = queryResult.getMetaData();
 					int colCount = meta.getColumnCount();
-					out.println("Already reviewed articles:<br>");
+					out.println("Waiting for a decision:<br>");
 					out.println("<table border=\"1\">");
 
 					// header row:

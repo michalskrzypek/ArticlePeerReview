@@ -13,12 +13,12 @@
 	<br>
 
 	<form action="ArticlesToReviewViewer" method="post">
-		<input type="submit" name="query" value="Show articles to review"><br>
+		<input type="submit" name="query" value="Articles to review"><br>
 	</form>
 
 
 	<form action="MyReviewsViewerServlet" method="post">
-		<input type="submit" name="query" value="Show my reviews"><br>
+		<input type="submit" name="query" value="My reviews"><br>
 	</form>
 
 	<br>

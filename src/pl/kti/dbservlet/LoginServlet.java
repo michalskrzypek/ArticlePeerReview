@@ -104,13 +104,15 @@ public class LoginServlet extends HttpServlet {
 				} else {
 					RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 					rd.include(request, response);
-					out.println("<p style=\"color:red\">Wrong password!");
+					out.println("<div id=\"message\"><p>Wrong password!</p></div>");
 				}
 
 			} else {
-				out.println("<p style=\"color:red\">Wrong username!");
+				
 				RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 				rd.include(request, response);
+				out.println("<div id=\"message\"><p>Wrong username!</p></div>");
+
 
 			}
 
