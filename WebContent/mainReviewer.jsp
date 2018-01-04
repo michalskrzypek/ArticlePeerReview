@@ -1,31 +1,77 @@
+
+<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>SQL query</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Reviewer's Page | ReviewMe®</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
+
 <body>
-	<h1>Reviewer Page</h1>
-	<br>
-	<h3>What do you want to do?</h3>
-	<br>
 
-	<form action="ArticlesToReviewViewer" method="post">
-		<input type="submit" name="query" value="Articles to review"><br>
-	</form>
+<% 
+//Preventing back button after logging out
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setHeader("Expires", "0");
+
+String fName = "";
+String lName = "";
+String userkind = "";
+Date lastAccess = null;
+
+if (session == null || session.getAttribute("userkind") == null) {
+	out.print("<div id=\"message\"><p>Please login first!</p></div>");
+	response.sendRedirect("login.jsp");
+} else{
+	userkind = (String) session.getAttribute("userkind");
+	if (!userkind.equalsIgnoreCase("reviewer")) {
+		response.sendRedirect("login.jsp");
+	}else{
+	fName = (String)session.getAttribute("fname");
+	lName = (String)session.getAttribute("lname");
+	lastAccess = new Date(session.getCreationTime());
+	}
+}
+%>
 
 
-	<form action="MyReviewsViewerServlet" method="post">
-		<input type="submit" name="query" value="My reviews"><br>
-	</form>
+	<div class="container">
+		<section id="content">
+		<form>
+			<h1>Reviewer's Page</h1>
+		</form>
+		<br>
 
-	<br>
-	<br>
-	<br>
-	<form action="LogoutServlet">
-		<button type="submit">LOG OUT</button>
-	</form>
+		<form action="ArticlesToReviewViewer" method="post">
+			<input class="button_2"  type="submit" name="query" value="Articles to review"><br>
+		</form>
+
+
+		<form action="MyReviewsViewerServlet" method="post">
+			<input class="button_2" type="submit" name="query" value="My reviews"><br>
+		</form>
+
+		<br>
+		<br>
+		</section>
+	</div>
+	
+			<div class="container">
+		<section id="content">
+		
+<h2><%=fName%> <%=lName%></h2><h3><%=userkind %></h3>
+<% if(lastAccess != null){ %>
+<p>Logged: <%=lastAccess.toString() %></p>
+<%} %>
+		<form action="LogoutServlet">
+			<input class="button_1" type="submit" value="Log out">
+		</form>
+		</section>
+	</div>
 </body>
 </html>

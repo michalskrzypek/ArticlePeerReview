@@ -15,28 +15,33 @@
 
 <body>
 <%
-String fname = (String)session.getAttribute("fname");
-String lname = (String)session.getAttribute("lname");
-String username = (String)session.getAttribute("username");
-String password = (String)session.getAttribute("password");
-%>
+HttpSession existingSession = request.getSession(false);
 
-<%  
-if(fname == null){
-	fname = "";
-}
+String fname = "";
+String lname = "";
+String username = "";
+String password = "";
 
-if(lname == null){
-	lname = "";
-}
-
-if(username == null){
-	username = "";
-}
-
-if(password == null){
-	password = "";
-}
+if(existingSession.getAttribute("userkind") != null){
+	
+		String ukind = (String)existingSession.getAttribute("userkind");
+		
+		if(ukind.equalsIgnoreCase("author")){
+			response.sendRedirect("mainAuthor.jsp");
+		}else if(ukind.equalsIgnoreCase("reviewer")){
+			response.sendRedirect("mainReviewer.jsp");
+		}else if(ukind.equalsIgnoreCase("redactor")){
+			response.sendRedirect("mainRedactor.jsp");
+		}
+		
+	}else if(existingSession.getAttribute("signUpFname") != null || existingSession.getAttribute("signUpLname") != null || existingSession.getAttribute("signUpUsername") != null || existingSession.getAttribute("signUpPassword") != null){
+		
+	fname = (String)existingSession.getAttribute("signUpFname");	
+	lname = (String)existingSession.getAttribute("signUpLname");	
+	username = (String)existingSession.getAttribute("signUpUsername");	
+	password = (String)existingSession.getAttribute("signUpPassword");	
+		
+	}
 
 %>
 
@@ -44,7 +49,7 @@ if(password == null){
 <div class="container">
 	<section id="content">
 		<form action="SignUpServlet" method="post">
-			<h1>Create account</h1>
+			<h1>Create an account</h1>
 			<div>
 				<input type="text" placeholder="First Name" required="" name="FirstName" value=<%=fname %>>
 			</div>
@@ -62,7 +67,7 @@ if(password == null){
 			<input type="radio" name="userKind" value="Redactor">Redactor
 			</div>
 			<div>
-				<input type="submit" value="Submit" />
+				<input class="button_1" type="submit" value="Submit" />
 
 				 <a href="login.jsp">Log in</a><p>Already have an account?</p>
 			</div>

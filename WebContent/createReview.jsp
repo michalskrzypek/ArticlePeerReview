@@ -8,6 +8,16 @@
 </head>
 <body>
 
+<%
+if (session == null || session.getAttribute("userkind") == null) {
+	response.sendRedirect("login.jsp");
+} else {
+	String userkind = (String) session.getAttribute("userkind");
+	if (!userkind.equalsIgnoreCase("reviewer")) {
+		response.sendRedirect("login.jsp");
+	}
+}
+%>
 
 <h3>create review to article:</h3>
 <form name="queryForm" action="ReviewCreationServlet" method="post">
