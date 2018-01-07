@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sun.glass.ui.Timer;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -222,7 +222,7 @@ public class ArticlesViewerServlet extends HttpServlet {
 					}
 
 					// Displaying already reviewed articles
-					query = "Select Id as 'ID', author_id, title as 'Title', content as 'Article', status as 'Status', decision as 'Decision' from articles where author_id="
+					query = "Select Id as 'ID', author_id, title as 'Title', content as 'Article', status as 'Status', decision as 'Decision', final_mark as 'Final Mark'  from articles where author_id="
 							+ authorsId + " and status = 'Reviewed';";
 
 					queryResult = stmt.executeQuery(query);
@@ -274,7 +274,7 @@ public class ArticlesViewerServlet extends HttpServlet {
 					out.println("</table><br><br>");
 
 					// Displaying already decided articles
-					query = "Select Id as 'ID', author_id, title as 'Title', content as 'Article', status as 'Status', decision as 'Decision' from articles where author_id="
+					query = "Select Id as 'ID', author_id, title as 'Title', content as 'Article', status as 'Status', decision as 'Decision', final_mark as 'Final Mark' from articles where author_id="
 							+ authorsId + " and status = 'Decided';";
 
 					queryResult = stmt.executeQuery(query);
@@ -302,20 +302,20 @@ public class ArticlesViewerServlet extends HttpServlet {
 						}
 
 						out.println("</tr>");
-
 						while (queryResult.next()) {
 
 							out.println("<tr>");
 							for (int col = 1; col <= colCount; col++) {
 								if (col != 2) {
-									value = queryResult.getObject(col);
-									out.println("<td>");
-									if (value != null) {
-										out.println(value.toString());
-									}
-									out.println("</td>");
+								value = queryResult.getObject(col);
+								out.println("<td>");
+								if (value != null) {
+									out.println(value.toString());
+								}
+								out.println("</td>");
 								}
 							}
+
 							if (queryResult.getString(6).equals("Next Round")) {
 								out.println(
 										"<td><form action=\"UpdateArticleServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""

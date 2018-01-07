@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class StatusServlet Servlet responsible for sending article to review
@@ -70,8 +70,8 @@ public class StatusUpdaterServlet extends HttpServlet {
 
 				stmt.executeUpdate(query);
 				stmt.executeUpdate(query2);
-				out.println("<div id=\"message\"><p>Article with ID " + index + "was sent to review successfully!</p></div>");
-				RequestDispatcher rd = request.getRequestDispatcher("ArticlesViewerServlet");
+				out.println("<div id=\"message\"><p>Article with ID " + index + " was sent to review successfully!</p></div>");
+				RequestDispatcher rd = request.getRequestDispatcher("mainAuthor.jsp");
 				rd.include(request, response);
 
 				stmt.close();

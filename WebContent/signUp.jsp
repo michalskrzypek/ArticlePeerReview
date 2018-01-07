@@ -74,6 +74,6 @@ if(existingSession.getAttribute("userkind") != null){
 		</form><!-- form -->
 	</section><!-- content -->
 </div><!-- container -->
+
 </body>
-    <script  src="js/index.js"></script>
 </html>

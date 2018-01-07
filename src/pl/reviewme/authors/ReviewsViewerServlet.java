@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class ReviewsServlet Used to show reviews to every
@@ -83,7 +83,7 @@ public class ReviewsViewerServlet extends HttpServlet {
 				authorId = (int) session.getAttribute("id");
 
 				if (articleId != 0) {
-					query = "select * from reviews where article_id=" + articleId + ";";
+					query = "select id as 'ID',article_id 	as 'Article ID', reviewer_id as 'Reviewer ID',mark as 'Mark',content as 'Review' from reviews where article_id=" + articleId + ";";
 				} else {
 					query = "Select Id from articles where author_id=" + authorId + ";"; // getting a set of author's
 																						// articles' Ids

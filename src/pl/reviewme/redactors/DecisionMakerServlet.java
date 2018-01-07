@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class DecisionMakerServlet
@@ -51,6 +51,13 @@ public class DecisionMakerServlet extends HttpServlet {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
 				articleId = request.getParameter("articleid");
 				
 				query = "select * from articles where id="+articleId+";";
@@ -91,7 +98,7 @@ public class DecisionMakerServlet extends HttpServlet {
 				}
 				out.println("</table>");
 
-				out.println("<br><br><form action=\"DecisionChangerServlet\" method=\"post\">\r\n" + 
+				out.println("<br><br><h2>Make Decision:</h3><form action=\"DecisionChangerServlet\" method=\"post\">\r\n" + 
 						"  <select name=\"decision\">\r\n" + 
 						"    <option value=\"NotDecidedYet\">Not Decided Yet</option>\r\n" + 
 						"    <option value=\"Accepted\">Accepted</option>\r\n" + 
@@ -105,6 +112,9 @@ public class DecisionMakerServlet extends HttpServlet {
 				
 					queryResult.close();
 				stmt.close();
+				out.println(
+						"<form action=\"mainAuthor.jsp\" method=\"post\"><input class=\"button_1\" type=\"submit\" name=\"query\" value=\"Main Page\"></form>");
+				out.println("</section></div></body></html>");
 			} catch (ClassNotFoundException e) {
 				out.println(e.getMessage());
 				e.printStackTrace();

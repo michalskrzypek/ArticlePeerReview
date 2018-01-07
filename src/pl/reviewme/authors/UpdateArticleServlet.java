@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class UpdateArticleServlet
@@ -82,6 +82,7 @@ public class UpdateArticleServlet extends HttpServlet {
 							+ "', status = 'Draft', decision='Not Decided Yet' \r\n" + "WHERE id = " + articleId + ";");
 
 					stmt.executeUpdate("update status set content='Draft' where article_id="+articleId+";");
+					stmt.executeUpdate("update articles set final_mark = NULL where id="+articleId+";");
 					stmt.executeUpdate("delete from reviews where article_id="+articleId+";");
 					stmt.executeUpdate("delete from decisions where article_id="+articleId+";");
 					

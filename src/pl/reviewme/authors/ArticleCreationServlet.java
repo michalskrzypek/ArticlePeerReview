@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

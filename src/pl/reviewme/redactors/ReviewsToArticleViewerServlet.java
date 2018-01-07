@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class ReviewsToArticleViewerServlet
@@ -57,9 +57,16 @@ public class ReviewsToArticleViewerServlet extends HttpServlet {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
 				articleId = request.getParameter("articleid");
 
-				query = "select * from reviews where article_id=" + articleId + ";";
+				query = "select id as 'ID',article_id 	as 'Article ID', reviewer_id as 'Reviewer ID',mark as 'Mark',content as 'Review' from reviews where article_id=" + articleId + ";";
 
 				ResultSet queryResult = stmt.executeQuery(query);
 
@@ -98,6 +105,7 @@ public class ReviewsToArticleViewerServlet extends HttpServlet {
 				out.println("</table>");
 				queryResult.close();
 				stmt.close();
+					out.println("</section></div></body></html>");
 
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

@@ -1,4 +1,4 @@
-package pl.reviewme.access;
+package pl.reviewme.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,7 +45,7 @@ public class LogoutServlet extends HttpServlet {
 		session.removeAttribute("username");
 		session.removeAttribute("userkind");
 		session.invalidate();
-
+	
 		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 		rd.include(request, response);
 		out.println("<div id=\"message\"><p style=\"color:black\">You have been logged out!</p></div>");

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class ReviewViewerServlet used to
@@ -61,21 +61,14 @@ public class MyReviewsViewerServlet extends HttpServlet {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
-				out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n" + 
-						"<html lang=\"en\">\r\n" + 
-						"<head>\r\n" + 
-						"  <meta charset=\"UTF-8\">\r\n" + 
-						"  <title>ReviewMe®</title>\r\n" + 
-						"  \r\n" + 
-						"  \r\n" + 
-						"  \r\n" + 
-						"      <link rel=\"stylesheet\" href=\"css/output_style.css\">\r\n" + 
-						"\r\n" + 
-						"  \r\n" + 
-						"</head>\r\n" + 
-						"\r\n" + 
-						"<body><div class=\"container\">\r\n" + 
-						"	<section id=\"content\" style=\"width:auto\">");
+				
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
 				reviewerId = (int)session.getAttribute("id");
 				query = "select id as 'ID',article_id 	as 'Article ID', reviewer_id as 'Reviewer ID',mark as 'Mark',content as 'Review' from reviews where reviewer_id=" + reviewerId + ";";
 				
@@ -112,13 +105,13 @@ public class MyReviewsViewerServlet extends HttpServlet {
 					}
 					
 					out.println(
-							"<td><form action=\"ArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><button id=\"action\" type=\"submit\" name=\"query\">Show Article</button></form></td>");
+							"<td><form action=\"ArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(2)+"\"/><button class=\"button_3\" type=\"submit\" name=\"query\">Show Article</button></form></td>");
 					value = queryResult.getObject(1);
 
 				}
 				out.println("</table>");
 				out.println(
-						"<br><form action=\"mainReviewer.jsp\" method=\"post\"><button id=\"logout\" type=\"submit\" name=\"query\">Main Page</button></form>");
+						"<br><form action=\"mainReviewer.jsp\" method=\"post\"><button class=\"button_1\" type=\"submit\" name=\"query\">Main Page</button></form>");
 				articleId = 0;
 				queryResult.close();
 				stmt.close();

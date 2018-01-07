@@ -21,6 +21,7 @@ response.setHeader("Expires", "0");
 String fName = "";
 String lName = "";
 String userkind = "";
+int id=0;
 Date lastAccess = null;
 
 if (session == null || session.getAttribute("userkind") == null) {
@@ -31,20 +32,18 @@ if (session == null || session.getAttribute("userkind") == null) {
 	if (!userkind.equalsIgnoreCase("author")) {
 		response.sendRedirect("login.jsp");
 	}else{
+		id= (int)session.getAttribute("id");
 	fName = (String)session.getAttribute("fname");
 	lName = (String)session.getAttribute("lname");
 	lastAccess = new Date(session.getCreationTime());
 	}
 }
 %>
-
-
 	<div class="container">
 		<section id="content">
 		<form>
 		<h1>Author's Page</h1>
 	</form>
-	<br>
 
 
 		<form action="createArticle.jsp" method="post">
@@ -61,13 +60,10 @@ if (session == null || session.getAttribute("userkind") == null) {
 		</form>
 		<br><br>
 		</section>
-	</div>
-	
-	
-		<div class="container">
+
 		<section id="content">
 		
-<h2><%=fName%> <%=lName%></h2><h3><%=userkind %></h3>
+<h2><%=fName%> <%=lName%></h2><h3><%=userkind %> ID: <%=id %></h3>
 <% if(lastAccess != null){ %>
 <p>Logged: <%=lastAccess.toString() %></p>
 <%} %>
@@ -77,5 +73,6 @@ if (session == null || session.getAttribute("userkind") == null) {
 		</form>
 		</section>
 	</div>
+	
 </body>
 </html>

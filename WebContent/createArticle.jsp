@@ -20,8 +20,6 @@ if (session == null || session.getAttribute("userkind") == null) {
 	}
 }
 %>
-
-
 	<div class="response_container">
 		<section id="response_content">
 		<form>
@@ -39,5 +37,6 @@ if (session == null || session.getAttribute("userkind") == null) {
 		</form>
 		</section>
 	</div>
+
 </body>
 </html>

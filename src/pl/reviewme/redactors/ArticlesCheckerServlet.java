@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class ArticlesCheckerServlet
@@ -51,7 +51,16 @@ public class ArticlesCheckerServlet extends HttpServlet {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
-				query = "select * from articles where status in('Reviewed')";
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
+
+				
+				query = "Select articles.Id as 'Article ID', articles.author_id as 'Author ID' , b.fname as 'First Name', b.lname as 'Last Name', articles.title as 'Title', articles.content as 'Article', articles.status as 'Status', articles.decision as 'Decision', articles.final_mark as 'Final Mark' from articles, authors b where status in('Reviewed') and b.Id = articles.author_id";
 
 				
 				ResultSet queryResult = stmt.executeQuery(query);
@@ -68,11 +77,11 @@ public class ArticlesCheckerServlet extends HttpServlet {
 				// header row:
 				out.println("<tr>");
 				for (int col = 1; col <= colCount; col++) {
-					
+					if (col != 2 && col != 7) {
 						out.println("<th>");
 						out.println(meta.getColumnLabel(col));
 						out.println("</th>");
-					
+					}
 				}
 
 				out.println("</tr>");
@@ -81,7 +90,7 @@ public class ArticlesCheckerServlet extends HttpServlet {
 
 					out.println("<tr>");
 					for (int col = 1; col <= colCount; col++) {
-					
+						if (col != 2 && col != 7) {	
 							value = queryResult.getObject(col);
 							out.println("<td>");
 							if (value != null) {
@@ -89,35 +98,32 @@ public class ArticlesCheckerServlet extends HttpServlet {
 							}
 							out.println("</td>");
 					
+					
 					}
-					if (queryResult.getString(5).equals("Reviewed")) {
+					}
+						
 						out.println(
-								"<td><form action=\"ReviewsToArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Show reviews\"></form></td>");
-						}else {
-							out.println(
-									"<td></td>");
-							
-						}
+									"<td><form action=\"ReviewsToArticleViewerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Show reviews\"></form></td>");
 					
-					out.println(
-							"<td><form action=\"DecisionMakerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Decide\"></form></td>");
+						
+						out.println(
+								"<td><form action=\"DecisionMakerServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""+queryResult.getString(1)+"\"/><input type=\"submit\" name=\"query\" value=\"Decide\"></form></td>");
+						
 					
-					
-					Object value = queryResult.getObject(1);
-
-				}
-				out.println("</table>");
-			/*	if(index!=0) {
-					out.println(
-							"<br><form action=\"StatusServlet\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-				}else {
-					out.println(
-							"<br><form action=\"mainAuthor.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-				}*/
 				
-					queryResult.close();
 				}
+					
+				}
+				
+				out.println("</table>");
+				out.println(
+						"<form action=\"mainRedactor.jsp\" method=\"post\"><input class=\"button_1\" type=\"submit\" name=\"query\" value=\"Main Page\"></form>");
+					
+					queryResult.close();
+				
+		
 				stmt.close();
+				out.println("</section></div></body></html>");
 			} catch (ClassNotFoundException e) {
 				out.println(e.getMessage());
 				e.printStackTrace();

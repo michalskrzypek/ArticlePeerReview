@@ -1,4 +1,4 @@
-package pl.reviewme.access;
+package pl.reviewme.controller;
 
 
 import java.sql.Connection;

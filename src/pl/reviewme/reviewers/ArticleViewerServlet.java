@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sun.glass.ui.Timer;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -63,27 +63,22 @@ public class ArticleViewerServlet extends HttpServlet {
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
+			
 				stmt = DBManager.getConnection().createStatement();
-				out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n" + 
-						"<html lang=\"en\">\r\n" + 
-						"<head>\r\n" + 
-						"  <meta charset=\"UTF-8\">\r\n" + 
-						"  <title>ReviewMe®</title>\r\n" + 
-						"  \r\n" + 
-						"  \r\n" + 
-						"  \r\n" + 
-						"      <link rel=\"stylesheet\" href=\"css/output_style.css\">\r\n" + 
-						"\r\n" + 
-						"  \r\n" + 
-						"</head>\r\n" + 
-						"\r\n" + 
-						"<body><div class=\"container\">\r\n" + 
-						"	<section id=\"content\" style=\"width:auto\">");
+				
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
+
 				String req = request.getParameter("query");
 				authorsId = (int) session.getAttribute("id");
 
 				int index = Integer.parseInt(request.getParameter("articleid"));
-				query = "Select a.Id as 'Article ID', b.fname as 'First Name', b.lname as 'Last Name', a.title as 'Title', a.content as 'Article', a.status as 'Status', a.decision as 'Decision' from articles a, authors b where a.Id=" + index + " and b.Id = a.author_id;";
+				query = "Select a.Id as 'Article ID', b.fname as 'First Name', b.lname as 'Last Name', a.title as 'Title', a.content as 'Article', a.status as 'Status', a.decision as 'Decision', final_mark as 'Final Mark' from articles a, authors b where a.Id=" + index + " and b.Id = a.author_id;";
 
 				ResultSet queryResult = stmt.executeQuery(query);
 				ResultSetMetaData meta = queryResult.getMetaData();
@@ -121,9 +116,7 @@ public class ArticleViewerServlet extends HttpServlet {
 				}
 				out.println("</table>");
 
-				/*	out.println(
-							"<br><form action=\"MyReviewsViewerServlet\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"OK\"></form>");
-				*/
+						
 				queryResult.close();
 				stmt.close();
 				out.println( "</section></div></body></html>");

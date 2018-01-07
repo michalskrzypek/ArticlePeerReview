@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sun.glass.ui.Timer;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -63,6 +63,14 @@ public class ArticlesToReviewViewer extends HttpServlet {
 				Class.forName("com.mysql.jdbc.Driver");
 				stmt = DBManager.getConnection().createStatement();
 				stmt2 = DBManager.getConnection().createStatement();
+				
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
 
 				articlesToReview = new ArrayList<Integer>();
 
@@ -97,15 +105,15 @@ public class ArticlesToReviewViewer extends HttpServlet {
 				}
 				
 				Collections.sort(articlesToReview);
-				StringBuilder sb = new StringBuilder("select * from articles where ");
+				StringBuilder sb = new StringBuilder("Select articles.Id as 'Article ID', articles.author_id as 'Author ID' , b.fname as 'First Name', b.lname as 'Last Name', articles.title as 'Title', articles.content as 'Article', articles.status as 'Status' from articles, authors b where articles.author_id = b.id and articles.id in(");
 				for(int i =0;i<articlesToReview.size();i++) {
-					if(i!=articlesToReview.size()-1) {
-						sb.append("id="+articlesToReview.get(i)+" or ");
-					}else {
-						sb.append("id="+articlesToReview.get(i)+";");
-					}
-					
+				if(i == articlesToReview.size()-1) {	
+					sb.append(articlesToReview.get(i)+"); ");
+				}else {
+					sb.append(articlesToReview.get(i)+", ");
 				}
+				}
+				
 				query = sb.toString();
 				
 				if(articlesToReview.isEmpty()) {
@@ -143,7 +151,7 @@ public class ArticlesToReviewViewer extends HttpServlet {
 						out.println(
 								"<td><form action=\"ReviewCreationServlet\" method=\"post\"><input type=\"hidden\" name=\"articleid\" value=\""
 										+ queryResult.getString(1)
-										+ "\"/><input type=\"submit\" name=\"query\" value=\"Create a review\"></form></td>");
+										+ "\"/><input class=\"button_3\" type=\"submit\" name=\"query\" value=\"Create a review\"></form></td>");
 					
 
 					Object value = queryResult.getObject(1);
@@ -151,8 +159,10 @@ public class ArticlesToReviewViewer extends HttpServlet {
 					out.println("</table>");
 				}
 					out.println(
-							"<br><form action=\"mainReviewer.jsp\" method=\"post\"><input type=\"submit\" name=\"query\" value=\"Go back\"></form>");
+							"<br><form action=\"mainReviewer.jsp\" method=\"post\"><input class=\"button_1\" type=\"submit\" name=\"query\" value=\"Main Page\"></form>");
 				//	queryResult.close();
+					out.println("</section></div></body></html>");
+
 					stmt.close();
 				
 			} catch (ClassNotFoundException e) {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class DecisionsViewerServlet
@@ -134,7 +134,6 @@ private static Object value = null;
 				queryResult = stmt.executeQuery(query);
 				ResultSetMetaData meta = queryResult.getMetaData();
 				int colCount = meta.getColumnCount();
-				out.println("Declined Articles:");
 				out.println("<table border=\"1\">");
 
 				// header row:
@@ -184,7 +183,6 @@ private static Object value = null;
 				queryResult = stmt.executeQuery(query);
 				ResultSetMetaData meta = queryResult.getMetaData();
 				int colCount = meta.getColumnCount();
-				out.println("Next-rounded Articles:");
 				out.println("<table border=\"1\">");
 
 				// header row:

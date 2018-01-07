@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import pl.reviewme.access.DBManager;
+import pl.reviewme.controller.DBManager;
 
 /**
  * Servlet implementation class ReviewViewerServlet used to
@@ -54,6 +54,14 @@ public class ReviewViewerServlet extends HttpServlet {
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
+				
+				out.println(
+						"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n"
+								+ "<html lang=\"en\">\r\n" + "<head>\r\n" + "  <meta charset=\"UTF-8\">\r\n"
+								+ "  <title>ReviewMe®</title>\r\n" + "  \r\n" + "  \r\n" + "  \r\n"
+								+ "      <link rel=\"stylesheet\" href=\"css/style.css\">\r\n" + "\r\n" + "  \r\n"
+								+ "</head>\r\n" + "\r\n" + "<body><div class=\"response_container\">\r\n"
+								+ "	<section id=\"response_content\">");
 				stmt = DBManager.getConnection().createStatement();
 				reviewerId = (int)session.getAttribute("id");
 				articleId = Integer.parseInt(request.getParameter("articleid"));
@@ -98,7 +106,10 @@ public class ReviewViewerServlet extends HttpServlet {
 				articleId = 0;
 				queryResult.close();
 				stmt.close();
-
+				out.println(
+						"<br><form action=\"mainReviewer.jsp\" method=\"post\"><input class=\"button_1\" type=\"submit\" name=\"query\" value=\"Main Page\"></form>");
+			//	queryResult.close();
+				out.println("</section></div></body></html>");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {

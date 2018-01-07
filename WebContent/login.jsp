@@ -52,7 +52,7 @@ String message = (String)existingSession.getAttribute("message");
 		</form><!-- form -->
 	</section><!-- content -->
 	
+	</div>
 
-</div><!-- container -->
 </body>
 </html>

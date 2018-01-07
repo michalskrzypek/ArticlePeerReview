@@ -22,7 +22,7 @@ String fName = "";
 String lName = "";
 String userkind = "";
 Date lastAccess = null;
-
+int id = 0;
 if (session == null || session.getAttribute("userkind") == null) {
 	out.print("<div id=\"message\"><p>Please login first!</p></div>");
 	response.sendRedirect("login.jsp");
@@ -31,6 +31,7 @@ if (session == null || session.getAttribute("userkind") == null) {
 	if (!userkind.equalsIgnoreCase("redactor")) {
 		response.sendRedirect("login.jsp");
 	}else{
+		id=(int)session.getAttribute("id");
 	fName = (String)session.getAttribute("fname");
 	lName = (String)session.getAttribute("lname");
 	lastAccess = new Date(session.getCreationTime());
@@ -43,7 +44,7 @@ if (session == null || session.getAttribute("userkind") == null) {
 		<form>
 			<h1>Redactor's Page</h1>
 		</form>
-		<br>
+		
 
 	
 	<form action="ArticlesCheckerServlet" method="post">
@@ -58,12 +59,10 @@ if (session == null || session.getAttribute("userkind") == null) {
 		<br>
 		<br>
 		</section>
-	</div>
-	
-			<div class="container">
+
 		<section id="content">
 		
-<h2><%=fName%> <%=lName%></h2><h3><%=userkind %></h3>
+<h2><%=fName%> <%=lName%></h2><h3><%=userkind %> ID: <%=id %></h3>
 <% if(lastAccess != null){ %>
 <p>Logged: <%=lastAccess.toString() %></p>
 <%} %>
@@ -73,5 +72,6 @@ if (session == null || session.getAttribute("userkind") == null) {
 		</form>
 		</section>
 	</div>
+
 </body>
 </html>
