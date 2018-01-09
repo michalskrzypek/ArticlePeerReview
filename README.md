@@ -5,10 +5,13 @@ Reviewers see articles with status 'Waiting for a review' and then they can writ
 Redactor sees reviewed articles and can decide about the article (he/she can accept it, decline it or take it to the next round).
 
 ## How does it look like?
-[alt text](https://i.imgur.com/qrljBqd.png)
+![alt text](https://i.imgur.com/qrljBqd.png)
 
-[alt text](https://i.imgur.com/DwRrQxJ.png)
+![alt text](https://i.imgur.com/DwRrQxJ.png)
 
 ## How can it be improved?
 Since this is my first bigger web project it has a lot to be improved. First of all, data access object (DAO) design pattern should be used. It would separate operations from high level services. What is more, I should utilize Apache Maven and Spring MVC framework.
 Dependency injection used by Spring would improve the code by achieving simplification and increasing testability. The division between controllers, JavaBean models, and views would be much cleaner.
+
+## How can I run it?
+Currently you can only run it on your local server (Apache Tomcat in this case). In the future I will post the project on an online server with remote database. 
