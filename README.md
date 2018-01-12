@@ -1,4 +1,7 @@
 # Article Peer-Review
+Java Servlet Technology including Form Data, HTTP Request Header, Response Header, Status Codes and Session Tracking. It uses JSP format as a view technology. 
+
+## What this application is about? 
 It is an online site for writers looking for their articles to be published. Authors of the articles, reviewers and redactor can log in.
 Every user has different authority. Authors can create, modify, browse his/her articles and see the status and decision to the article (whether it is accepted by redactor, declined or given a second chance to be modify and sent to review again (it is called "Next Round").
 Reviewers see articles with status 'Waiting for a review' and then they can write a review and give a mark to a particular article.
